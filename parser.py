@@ -23,7 +23,7 @@ def update():
 def status():
     output = ""
     for bike in bike_map:
-        output += f"{('NO','YES')[bike.avail]} - {bike.name} is {('UNavailable','available')[bike.avail]} in size {bike.size} \n"
+        output += f"{('👎 NO','🎉 YES')[bike.avail]} - {bike.name} is {('UNavailable','available')[bike.avail]} in size {bike.size} \n"
     return output
 
 

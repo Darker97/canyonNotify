@@ -49,6 +49,11 @@ def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
         job.schedule_removal()
     return True
 
+def CheckEveryHalf(context: CallbackContext):
+    job = context.job
+    context.bot.send_message(job.context, text="Bot is Online")
+    get_status(context)
+    
 
 def set_notify(update: Update, context: CallbackContext) -> None:
     """Create a repeated job in the queue"""
@@ -59,12 +64,14 @@ def set_notify(update: Update, context: CallbackContext) -> None:
         interval = interval_map[chat_id]
     except:
         interval = config.interval
-    context.job_queue.run_repeating(run_check, interval=interval,
-        context=chat_id, name=str(chat_id))
+    context.job_queue.run_repeating(run_check, interval=interval,context=chat_id, name=str(chat_id))
+    context.job_queue.run_repeating(CheckEveryHalf, interval=3600, context=chat_id, name=str(chat_id))
 
     text = 'Notify was succesfully restarted!' if job_removed \
         else 'Notify was succesfully started!'
     update.message.reply_text(text)
+
+
 
 
 def set_interval(update: Update, context: CallbackContext) -> None:
